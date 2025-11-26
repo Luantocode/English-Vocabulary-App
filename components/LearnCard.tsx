@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Word } from '../types';
 import { Volume2, Book, Sparkles, Languages, Eye } from 'lucide-react';
@@ -73,18 +72,18 @@ const LearnCard: React.FC<Props> = ({ word, onNext, isLast }) => {
 
   const renderStyledText = (text: string) => {
     if (!text) return null;
-    // Split by double asterisks, handling optional spaces inside or around
-    // Regex matches **content**
+    // Split by double asterisks
     const parts = text.split(/(\*\*[\s\S]*?\*\*)/g);
     return parts.map((part, index) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         // Remove asterisks and trim any accidental whitespace inside them
         const content = part.slice(2, -2).trim();
         if (content.length > 0) {
-            return <strong key={index} className="text-amber-700 bg-amber-100 px-1 rounded">{content}</strong>;
+            return <strong key={index} className="text-amber-800 bg-amber-200/50 px-1 rounded">{content}</strong>;
         }
       }
-      return <span key={index}>{part}</span>;
+      // Strip stray asterisks from non-bold parts to fix presentation issues
+      return <span key={index}>{part.replace(/\*\*/g, '')}</span>;
     });
   };
 

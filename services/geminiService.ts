@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { AppConfig, Word, Question, BloomLevel, VocabResponse, MatchingPair, WordPoolItem } from "../types";
 
@@ -290,16 +289,16 @@ export const generateTest = async (words: Word[], level: string): Promise<Questi
          - Do NOT create separate question objects for each word.
     
     4. **Level 4 (Analyse)**: Test collocations. (1 question per word)
-       - \`questionText\`: "Select the sentence that uses the correct collocation."
+       - \`questionText\`: "Select the sentence that uses the word '[WORD]' correctly."
        - \`options\`: 3 sentences.
-         - **CRITICAL RULE**: The correct answer MUST use one of the **EXACT** collocation phrases/sentences found in the "CONTEXT" JSON provided above for that specific word. 
-         - **Do NOT invent a new sentence or a synonym.** If the context example was "make a decision", the correct option MUST be "make a decision".
-         - The user must recognize the exact phrase they just learned in the presentation.
-         - **STRICT RULE**: All 3 sentences MUST have **EXACTLY THE SAME WORD COUNT**.
-         - Option A: Correct collocation (taken from CONTEXT).
-         - Option B & C: Incorrect/unnatural collocation (e.g. "do a decision" vs "make a decision").
-       - HIGHLIGHTING: Wrap the collocation phrase in double asterisks, e.g., "**make a decision**".
-       - \`correctOption\`: The full sentence string that is correct.
+         - **Option A (Correct)**: You MUST use one of the **EXACT** example sentences from the "CONTEXT" JSON provided above for that specific word.
+           - The user must recognize the sentence they just learned.
+         - **Option B & C (Incorrect)**: Create 2 sentences where the target word is used with an **INCORRECT** collocation or is **INCOMPATIBLE** with the context.
+           - Strategy: Keep the sentence structure similar to the correct option but swap the collocate (e.g. change the verb "make" to "do" if the target is "decision").
+           - Ensure the distractors are definitely incorrect usages in standard English.
+         - **STRICT RULE**: All 3 sentences MUST have **similar word counts**.
+         - **HIGHLIGHTING**: Wrap the collocation phrase in **double asterisks** in ALL options.
+         - \`correctOption\`: The full sentence string that is correct.
 
     5. **Explanations**:
        - \`explanation\`: Must be written in VERY SIMPLE English (A1-B1).
